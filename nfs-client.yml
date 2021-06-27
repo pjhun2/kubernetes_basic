@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-nfspap-pod
+  labels:
+    app: nfs-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-client
+  template:
+    metadata:
+      labels:
+        app: nfs-client
+    spec:
+      containers:
+      - name: kubernetes-nfsapp-pod
+        image: arisu1000/nfs-server:latest
+        volumeMounts:
+        - mountPath: /test-nfs
+          name: nfs-vol
+      volumes:
+      - name: nfs-vol
+        nfs:
+          server: 10.1.0.97
+          path: "/"
